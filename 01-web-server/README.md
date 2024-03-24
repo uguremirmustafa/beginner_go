@@ -1,0 +1,7 @@
+- [x] as a developer I can create a sqlite db connection
+- [x] as a developer I can initiate db with products table
+- [x] as a developer I can create a server that can handle different REST actions (GET,PUT,POST,DELETE)
+- [x] as a developer I can save a Product to a sqlite db
+- [x] as a developer I can read contents of a sqlite db
+- [x] as a developer I can update a particular row in the sqlite db
+- [x] as a developer I can delete a particular row from the sqlite db
