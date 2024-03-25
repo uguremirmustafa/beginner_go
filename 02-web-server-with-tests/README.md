@@ -1,0 +1,3 @@
+- [x] as a developer I can connect to an sqlite database
+- [x] as a developer I can insert a todo into the db
+- [x] as a developer I can list todos from the db
