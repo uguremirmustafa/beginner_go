@@ -1,3 +1,5 @@
-- [x] as a developer I can connect to an sqlite database
-- [x] as a developer I can insert a todo into the db
-- [x] as a developer I can list todos from the db
+In this project, I will learn to test http endpoints.
+
+TODO: read [this article](https://quii.gitbook.io/learn-go-with-tests/build-an-application/http-server) to learn the basics and write a summary here
+
+## How to test an http endpoint?
