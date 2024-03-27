@@ -9,21 +9,14 @@ import (
 	"testing"
 )
 
-type MockStorage struct{}
-
-func (m *MockStorage) GetTodos() ([]*Todo, error) {
-	// Mock implementation for GetTodos
-	return []*Todo{}, nil
-}
-
-func (m *MockStorage) CreateTodo(todo *Todo) error {
-	// Mock implementation for CreateTodo
-	return nil
-}
-
 func TestGetTodos(t *testing.T) {
+	// initiate in memory database
+	store, err := setupTest()
+	if err != nil {
+		t.Fatalf("error setting up test: %v", err)
+	}
 	// Create a new instance of APIServer with MockStorage
-	server := NewApiServer(":8080", &MockStorage{})
+	server := NewApiServer(":8080", store)
 	req, err := http.NewRequest("GET", "/todo", nil)
 	if err != nil {
 		t.Fatalf("could not create request: %v", err)
@@ -45,8 +38,13 @@ func TestGetTodos(t *testing.T) {
 }
 
 func TestCreateTodo(t *testing.T) {
+	// initiate in memory database
+	store, err := setupTest()
+	if err != nil {
+		t.Fatalf("error setting up test: %v", err)
+	}
 	// Create a new instance of APIServer with MockStorage
-	server := NewApiServer(":4444", &MockStorage{})
+	server := NewApiServer(":4444", store)
 	todo := &CreateTodoParams{Title: "Test Todo"}
 	jsonBody, err := json.Marshal(todo)
 	if err != nil {

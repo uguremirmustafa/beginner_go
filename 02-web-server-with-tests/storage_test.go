@@ -89,8 +89,6 @@ func tableExists(db *sql.DB, tableName string) bool {
 func TestMain(m *testing.M) {
 	// Run tests and exit with appropriate status
 	exitVal := m.Run()
-
 	// Clean up any test resources if necessary
-
 	os.Exit(exitVal)
 }
