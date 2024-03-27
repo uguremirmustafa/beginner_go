@@ -1,0 +1,4 @@
+- [x] learn about //go:embed [embed](https://pkg.go.dev/embed)
+- [x] explain sqlc options in comments
+- [x] when sqlc is a good choice over raw sql and orm
+  - [this article](https://preslav.me/2023/03/07/reasons-against-sqlc/)

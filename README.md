@@ -11,3 +11,7 @@
 
 - As a developer I can test database queries against a running db
 - As a developer I can test http endpoints with httptest package against a running db
+
+## 03 Simple Web Server with SQLC
+
+- [] As a developer I can create `sqlc.yaml` file.

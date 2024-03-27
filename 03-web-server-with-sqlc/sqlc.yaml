@@ -1,0 +1,15 @@
+version: '2'
+sql:
+  - engine: 'sqlite' # postgresql, mysql or sqlite
+    # queries refers to where our manually created queries located
+    queries: 'misc/queries' # will refer a directory
+    # schema refers to where our schema definitions located
+    schema: 'misc/migrations' # will refer a directory
+    gen:
+      go:
+        package: 'db'
+        out: 'db'
+        # "json:"column_name""
+        emit_json_tags: true
+        # "db:"column_name""
+        emit_db_tags: true
