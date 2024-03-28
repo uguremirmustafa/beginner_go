@@ -11,15 +11,20 @@ import (
 
 const createNode = `-- name: CreateNode :one
 INSERT INTO
-    nodes (name)
+    nodes (name, description)
 values
-    (?) RETURNING id, name
+    (?, ?) RETURNING id, name, description
 `
 
-func (q *Queries) CreateNode(ctx context.Context, name string) (Node, error) {
-	row := q.db.QueryRowContext(ctx, createNode, name)
+type CreateNodeParams struct {
+	Name        string  `db:"name" json:"name"`
+	Description *string `db:"description" json:"description"`
+}
+
+func (q *Queries) CreateNode(ctx context.Context, arg CreateNodeParams) (Node, error) {
+	row := q.db.QueryRowContext(ctx, createNode, arg.Name, arg.Description)
 	var i Node
-	err := row.Scan(&i.ID, &i.Name)
+	err := row.Scan(&i.ID, &i.Name, &i.Description)
 	return i, err
 }
 
@@ -37,7 +42,7 @@ func (q *Queries) DeleteNode(ctx context.Context, id int64) error {
 
 const getNode = `-- name: GetNode :one
 SELECT
-    id, name
+    id, name, description
 FROM
     nodes
 WHERE
@@ -49,13 +54,13 @@ LIMIT
 func (q *Queries) GetNode(ctx context.Context, id int64) (Node, error) {
 	row := q.db.QueryRowContext(ctx, getNode, id)
 	var i Node
-	err := row.Scan(&i.ID, &i.Name)
+	err := row.Scan(&i.ID, &i.Name, &i.Description)
 	return i, err
 }
 
 const listNodes = `-- name: ListNodes :many
 SELECT
-    id, name
+    id, name, description
 FROM
     nodes
 ORDER BY
@@ -71,7 +76,7 @@ func (q *Queries) ListNodes(ctx context.Context) ([]Node, error) {
 	var items []Node
 	for rows.Next() {
 		var i Node
-		if err := rows.Scan(&i.ID, &i.Name); err != nil {
+		if err := rows.Scan(&i.ID, &i.Name, &i.Description); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -89,17 +94,19 @@ const updateNode = `-- name: UpdateNode :exec
 UPDATE
     nodes
 SET
-    name = ?
+    name = ?,
+    description = ?
 WHERE
     id = ?
 `
 
 type UpdateNodeParams struct {
-	Name string `db:"name" json:"name"`
-	ID   int64  `db:"id" json:"id"`
+	Name        string  `db:"name" json:"name"`
+	Description *string `db:"description" json:"description"`
+	ID          int64   `db:"id" json:"id"`
 }
 
 func (q *Queries) UpdateNode(ctx context.Context, arg UpdateNodeParams) error {
-	_, err := q.db.ExecContext(ctx, updateNode, arg.Name, arg.ID)
+	_, err := q.db.ExecContext(ctx, updateNode, arg.Name, arg.Description, arg.ID)
 	return err
 }

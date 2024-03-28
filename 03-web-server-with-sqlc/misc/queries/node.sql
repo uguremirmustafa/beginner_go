@@ -18,15 +18,16 @@ ORDER BY
 
 -- name: CreateNode :one
 INSERT INTO
-    nodes (name)
+    nodes (name, description)
 values
-    (?) RETURNING *;
+    (?, ?) RETURNING *;
 
 -- name: UpdateNode :exec
 UPDATE
     nodes
 SET
-    name = ?
+    name = ?,
+    description = ?
 WHERE
     id = ?;
 
